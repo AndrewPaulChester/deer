@@ -307,7 +307,8 @@ class NeuralAgent(object):
             maxSteps -= 1
             if(self.gathering_data==True or self._mode!=-1):
                 obs = self._environment.observe()
-                
+                #self._environment.render()
+
                 for i in range(len(obs)):
                     self._state[i][0:-1] = self._state[i][1:]
                     self._state[i][-1] = obs[i]

@@ -6,8 +6,8 @@ Code for the CRAR learning algorithm using Keras
 import numpy as np
 from keras.optimizers import SGD,RMSprop
 from keras import backend as K
-from ..base_classes import LearningAlgo
-from .NN_CRAR_keras import NN # Default Neural network used
+from deer.base_classes import LearningAlgo
+from deer.learning_algos.NN_CRAR_keras import NN # Default Neural network used
 #import tensorflow as tf
 #config = tf.ConfigProto()
 #config.gpu_options.allow_growth=True
@@ -260,7 +260,7 @@ class CRAR(LearningAlgo):
             target_modif_features=np.repeat(target_modif_features,self._batch_size,axis=0)
             states_val_tiled=[]
             for obs in states_val:
-                states_val_tiled.append(np.tile(obs,(self._n_actions,1,1,1)))
+                states_val_tiled.append(np.tile(obs,(self._n_actions,1,1,1,1)))
             onehot_actions_tiled = np.diag(np.ones(self._n_actions))#np.zeros((self._batch_size*self._n_actions, self._n_actions))
             onehot_actions_tiled = np.repeat(onehot_actions_tiled,self._batch_size,axis=0)
                 
@@ -406,13 +406,13 @@ class CRAR(LearningAlgo):
         QD_plan=0
         for i in range(d+1):
             Qd=self.qValues_planning_abstr(encoded_x, R, gamma, T, Q, d=i, branching_factor=[self._n_actions,2,2,2,2,2,2,2]).reshape(len(encoded_x),-1)
-            print ("Qd,i")
-            print (Qd,i)
+            # print ("Qd,i")
+            # print (Qd,i)
             QD_plan+=Qd
         QD_plan=QD_plan/(d+1)
         
-        print ("QD_plan")
-        print (QD_plan)
+        # print ("QD_plan")
+        # print (QD_plan)
 
         return QD_plan
   
